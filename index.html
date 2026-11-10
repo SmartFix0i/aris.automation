@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARIS | Personal AI System</title>
+    <link rel="stylesheet" href="css/style.css">
+
+
+<style>
+/* ARIS futuristic voice interface */
+.aris-voice-panel {
+    position: relative; display:flex; align-items:center; justify-content:center;
+    gap: clamp(22px, 5vw, 60px); min-height:220px; margin: 0 0 22px;
+    padding:28px; overflow:hidden; border:1px solid rgba(0,220,255,.2);
+    border-radius:18px; background:radial-gradient(ellipse at 25% 50%,rgba(0,210,255,.12),transparent 48%),linear-gradient(135deg,rgba(8,18,34,.98),rgba(5,10,22,.98));
+}
+.aris-voice-panel:after { content:""; position:absolute; inset:0; pointer-events:none; opacity:.22;
+    background:linear-gradient(transparent 49%,rgba(0,220,255,.08) 50%,transparent 51%); background-size:100% 7px; }
+.aris-voice-orb { position:relative; flex:0 0 150px; width:150px; height:150px; display:grid; place-items:center; }
+.voice-orb-ring { position:absolute; border:1px solid rgba(0,220,255,.55); border-radius:50%; animation:arisSpin 12s linear infinite; }
+.voice-orb-ring.ring-a { inset:3px; border-style:dashed; }
+.voice-orb-ring.ring-b { inset:14px; border-color:rgba(0,160,255,.6); animation-direction:reverse; animation-duration:8s; }
+.voice-orb-ring.ring-c { inset:25px; border-style:dotted; animation-duration:5s; }
+.voice-orb-core { width:78px;height:78px;border-radius:50%;display:grid;place-items:center;
+    background:radial-gradient(circle at 35% 30%,#8ffaff,#00a9d6 38%,#073d75 72%,#031426);
+    box-shadow:0 0 18px #00d9ff,0 0 45px rgba(0,190,255,.65),inset 0 0 15px rgba(255,255,255,.55);
+    animation:arisPulse 2.4s ease-in-out infinite; }
+.voice-orb-core span { width:22px;height:22px;border-radius:50%;background:#eaffff;box-shadow:0 0 20px #fff; }
+.aris-voice-info { z-index:1; max-width:440px; }
+.voice-kicker { color:#00d9ff;letter-spacing:3px;font-size:10px;font-weight:700; }
+.aris-voice-info h2 { margin:9px 0 6px;font-size:clamp(22px,3vw,32px);color:#eafaff; }
+.aris-voice-info p { margin:0;color:#91a9bd;font-size:13px;line-height:1.6; }
+.voice-dots { color:#00d9ff;animation:arisBlink 1.2s infinite; }
+.voice-wave { display:flex;align-items:center;gap:5px;height:28px;margin-top:15px; }
+.voice-wave i { width:3px;height:7px;border-radius:5px;background:#00d9ff;opacity:.65; }
+.aris-voice-panel.is-listening .voice-wave i { animation:arisWave .65s ease-in-out infinite alternate; }
+.voice-wave i:nth-child(2n) {animation-delay:.15s!important}.voice-wave i:nth-child(3n) {animation-delay:.3s!important}
+.aris-voice-panel.is-speaking .voice-wave i { animation:arisWave .38s ease-in-out infinite alternate; }
+.aris-voice-panel.is-listening .voice-orb-core,.aris-voice-panel.is-speaking .voice-orb-core { animation-duration:.65s;box-shadow:0 0 25px #00eaff,0 0 75px rgba(0,220,255,.9); }
+@keyframes arisSpin {to{transform:rotate(360deg)}}
+@keyframes arisPulse {50%{transform:scale(1.09);filter:brightness(1.25)}}
+@keyframes arisBlink {50%{opacity:.2}}
+@keyframes arisWave {to{height:25px;opacity:1}}
+@media(max-width:600px){.aris-voice-panel{flex-direction:column;text-align:center;padding:22px 14px;gap:12px}.aris-voice-orb{transform:scale(.82);margin:-10px 0}.voice-wave{justify-content:center}}
+@media(prefers-reduced-motion:reduce){.aris-voice-panel *{animation:none!important}}
+
+/* ARIS dashboard quick access */
+.aris-quick-access{margin:26px 0;padding:22px;border:1px solid rgba(0,220,255,.16);border-radius:16px;background:linear-gradient(135deg,rgba(9,25,43,.92),rgba(7,13,27,.94));}
+.aris-quick-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px;}
+.aris-quick-heading .eyebrow{margin:0 0 5px;color:#00d9ff;font-size:10px;letter-spacing:2px;font-weight:700;}
+.aris-quick-heading h2{margin:0;color:#eafaff;font-size:21px;}
+.aris-quick-heading>span{font-size:10px;letter-spacing:1.5px;color:#7892a9;}
+.aris-quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+.aris-quick-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:7px;min-height:132px;padding:17px;text-align:left;color:#eafaff;border:1px solid rgba(0,210,255,.15);border-radius:12px;background:rgba(10,28,47,.75);cursor:pointer;transition:transform .2s,border-color .2s,background .2s;}
+.aris-quick-card:hover{transform:translateY(-3px);border-color:rgba(0,220,255,.65);background:rgba(0,140,190,.13);}
+.aris-quick-icon{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;color:#00d9ff;background:rgba(0,210,255,.1);font-size:20px;}
+.aris-quick-card strong{font-size:13px;}
+.aris-quick-card small{color:#8da5b9;font-size:11px;}
+.aris-quick-arrow{position:absolute;right:14px;top:15px;color:#00d9ff;font-size:16px;}
+@media(max-width:900px){.aris-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media(max-width:480px){.aris-quick-access{padding:15px}.aris-quick-grid{grid-template-columns:1fr 1fr}.aris-quick-card{min-height:120px;padding:12px}.aris-quick-heading>span{display:none;}}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-icon">A</div>
+            <div>
+                <h2>ARIS<span>.</span></h2>
+                <small>PERSONAL AI SYSTEM</small>
+            </div>
+        </div>
+
+        <div class="nav-label">MAIN MENU</div>
+
+        <nav class="navigation">
+
+            <button class="nav-item active" data-page="dashboard">
+                <span>◈</span> Dashboard
+            </button>
+
+            <button class="nav-item" data-page="assistant">
+                <span>◎</span> AI Assistant
+            </button>
+
+            <button class="nav-item" data-page="conversations">
+                <span>▤</span> Conversations
+            </button>
+
+            <div class="nav-label">CONTROL CENTER</div>
+
+            <button class="nav-item" data-page="smarthome">
+                <span>⌂</span> Smart Home
+            </button>
+
+            <button class="nav-item" data-page="devices">
+                <span>▣</span> My Devices
+            </button>
+
+            <button class="nav-item" data-page="tasks">
+                <span>✓</span> Tasks
+            </button>
+
+            <div class="nav-label">PERSONAL</div>
+
+            <button class="nav-item" data-page="memory">
+                <span>◉</span> ARIS Memory
+            </button>
+
+            <button class="nav-item" data-page="health">
+                <span>♡</span> ARIS Health
+            </button>
+
+            <button class="nav-item" data-page="settings">
+                <span>⚙</span> Settings
+            </button>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="profile">
+                <div class="avatar">A</div>
+                <div class="profile-info">
+                    <strong>Arman</strong>
+                    <small>Administrator</small>
+                </div>
+                <span>•••</span>
+            </div>
+        </div>
+
+    </aside>
+
+    <main class="main-area">
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button class="menu-toggle" id="menuToggle">☰</button>
+
+                <div>
+                    <h3 id="pageTitle">Dashboard</h3>
+                    <small id="breadcrumb">Home / Dashboard</small>
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <div class="system-online">
+                    <span class="online-dot"></span>
+                    SYSTEM ONLINE
+                </div>
+
+                <div class="clock" id="clock">00:00:00</div>
+
+                <div class="top-avatar">A</div>
+
+            </div>
+
+        </header>
+
+        <div class="page-content">
+
+            <!-- DASHBOARD -->
+
+            <section class="page active" id="dashboard">
+
+                <div class="welcome-section">
+
+                    <div>
+                        <p class="eyebrow">PERSONAL AI INTERFACE</p>
+                        <h1>Good day, <span>Arman.</span></h1>
+                        <p class="subtitle">
+                            Your intelligent personal assistant is ready.
+                        </p>
+                    </div>
+
+                    <div class="date-box">
+                        <div id="date">Loading date...</div>
+                        <small>LOCAL SYSTEM TIME</small>
+                    </div>
+
+                </div>
+
+                <div class="hero-section">
+
+                    <div class="hero-orb" id="aiOrb">
+
+                        <div class="orb-ring ring-one"></div>
+                        <div class="orb-ring ring-two"></div>
+                        <div class="orb-ring ring-three"></div>
+
+                        <div class="orb-core">
+                            <div class="orb-center"></div>
+                        </div>
+
+                    </div>
+
+                    <h2>A.R.I.S.</h2>
+                    <p>ADVANCED INTELLIGENCE SYSTEM</p>
+
+                    <div class="listening-status" id="coreStatus">
+                        <span class="online-dot"></span>
+                        System Standby
+                    </div>
+
+                    <button class="primary-btn" data-open="assistant">
+                        Launch Assistant →
+                    </button>
+
+                </div>
+
+                <div class="section-heading">
+                    <h2>System Overview</h2>
+                    <span>LIVE INTERFACE</span>
+                </div>
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <div class="stat-icon cyan">◎</div>
+                        <p>AI Core</p>
+                        <h3>Ready</h3>
+                        <small>Interface operational</small>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">▣</div>
+                        <p>Connected Devices</p>
+                        <h3>02</h3>
+                        <small>Interface devices</small>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon purple">◉</div>
+                        <p>Memory Storage</p>
+                        <h3>Active</h3>
+                        <small>Local interface only</small>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon orange">✓</div>
+                        <p>Pending Tasks</p>
+                        <h3 id="pendingTaskCount">03</h3>
+                        <small>Sample tasks</small>
+                    </div>
+
+                </div>
+
+                <!-- ARIS QUICK ACCESS -->
+                <div class="aris-quick-access">
+                    <div class="aris-quick-heading">
+                        <div>
+                            <p class="eyebrow">FAST COMMANDS</p>
+                            <h2>Quick Access</h2>
+                        </div>
+                        <span>CONTROL CENTER</span>
+                    </div>
+                    <div class="aris-quick-grid">
+                        <button class="aris-quick-card" type="button" data-open="assistant">
+                            <span class="aris-quick-icon">◎</span>
+                            <strong>Talk to ARIS</strong>
+                            <small>Open AI assistant</small>
+                            <span class="aris-quick-arrow">↗</span>
+                        </button>
+                        <button class="aris-quick-card" type="button" data-open="smarthome">
+                            <span class="aris-quick-icon">⌂</span>
+                            <strong>Smart Home</strong>
+                            <small>Control home devices</small>
+                            <span class="aris-quick-arrow">↗</span>
+                        </button>
+                        <button class="aris-quick-card" type="button" data-open="tasks">
+                            <span class="aris-quick-icon">✓</span>
+                            <strong>My Tasks</strong>
+                            <small>View your task list</small>
+                            <span class="aris-quick-arrow">↗</span>
+                        </button>
+                        <button class="aris-quick-card" type="button" data-open="conversations">
+                            <span class="aris-quick-icon">▤</span>
+                            <strong>Chat History</strong>
+                            <small>Continue a conversation</small>
+                            <span class="aris-quick-arrow">↗</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bottom-grid">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <h3>Recent Activity</h3>
+                            <span>ACTIVITY LOG</span>
+                        </div>
+
+                        <div class="activity">
+                            <div class="activity-icon">◎</div>
+                            <div>
+                                <strong>ARIS Core Initialized</strong>
+                                <small>System interface started</small>
+                            </div>
+                            <span>Now</span>
+                        </div>
+
+                        <div class="activity">
+                            <div class="activity-icon">▣</div>
+                            <div>
+                                <strong>Dashboard Loaded</strong>
+                                <small>Interface ready</small>
+                            </div>
+                            <span>Now</span>
+                        </div>
+
+                        <div class="activity">
+                            <div class="activity-icon">✓</div>
+                            <div>
+                                <strong>System Check</strong>
+                                <small>Basic interface check complete</small>
+                            </div>
+                            <span>Now</span>
+                        </div>
+
+                    </div>
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <h3>System Health</h3>
+                            <span>STATUS</span>
+                        </div>
+
+                        <div class="health-row">
+                            <span>AI Interface</span>
+                            <strong class="green-text">Operational</strong>
+                        </div>
+
+                        <div class="health-row">
+                            <span>Voice Module</span>
+                            <strong class="green-text">Available</strong>
+                        </div>
+
+                        <div class="health-row">
+                            <span>AI Connection</span>
+                            <strong class="orange-text">Not Connected</strong>
+                        </div>
+
+                        <div class="health-row">
+                            <span>Smart Home</span>
+                            <strong class="orange-text">Not Connected</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- AI ASSISTANT -->
+
+            <section class="page" id="assistant">
+
+                <div class="chat-page">
+
+                    <!-- ARIS VOICE VISUALIZER -->
+                    <div class="aris-voice-panel" id="arisVoicePanel">
+                        <div class="aris-voice-orb" id="arisVoiceOrb">
+                            <span class="voice-orb-ring ring-a"></span>
+                            <span class="voice-orb-ring ring-b"></span>
+                            <span class="voice-orb-ring ring-c"></span>
+                            <span class="voice-orb-core"><span></span></span>
+                        </div>
+                        <div class="aris-voice-info">
+                            <span class="voice-kicker">A.R.I.S. NEURAL INTERFACE</span>
+                            <h2>I'm listening<span class="voice-dots">...</span></h2>
+                            <p id="arisVoiceLabel">Voice interface ready. Tap the microphone to speak.</p>
+                            <div class="voice-wave" aria-hidden="true">
+                                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:15px; align-items:center; margin-bottom:20px; flex-wrap:wrap;">
+
+                        <button class="primary-btn" id="newChatBtn">
+                            + New Chat
+                        </button>
+
+                        <button class="small-btn" id="speechToggle">
+                            🔊 Voice ON
+                        </button>
+
+                    </div>
+
+                    <div class="chat-layout" style="display:grid; grid-template-columns:minmax(180px, 240px) minmax(0, 1fr); gap:18px;">
+
+                        <div class="panel" style="padding:15px; min-width:0;">
+
+                            <div class="panel-header">
+                                <h3>Chat History</h3>
+                            </div>
+
+                            <div id="chatHistoryList" style="display:flex; flex-direction:column; gap:8px; max-height:500px; overflow-y:auto;">
+                            </div>
+
+                        </div>
+
+                        <div style="min-width:0;">
+
+                            <div class="chat-header">
+
+                                <div class="chat-avatar">A</div>
+
+                                <div>
+                                    <h2>ARIS Assistant</h2>
+                                    <small>Personal AI Interface</small>
+                                </div>
+
+                                <span class="online-dot"></span>
+
+                            </div>
+
+                            <div class="chat-messages" id="messages"></div>
+
+                            <div class="chat-input-area">
+
+                                <input
+                                    type="text"
+                                    id="userInput"
+                                    placeholder="Message ARIS..."
+                                    autocomplete="off"
+                                >
+
+                                <button id="voiceBtn">🎙</button>
+
+                                <button id="sendBtn" class="send-btn">
+                                    ➤
+                                </button>
+
+                            </div>
+
+                            <p class="chat-disclaimer">
+                                ARIS AI connection is not configured yet.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- CONVERSATIONS -->
+
+            <section class="page" id="conversations">
+
+                <div class="page-heading">
+                    <h1>Conversations</h1>
+                    <p>Your saved interactions with ARIS.</p>
+                </div>
+
+                <div class="panel">
+                    <div id="allConversationsList"></div>
+                </div>
+
+            </section>
+
+            <!-- SMART HOME -->
+
+            <section class="page" id="smarthome">
+
+                <div class="page-heading">
+                    <h1>Smart Home</h1>
+                    <p>Control your home devices directly through ARIS.</p>
+                </div>
+
+                <div style="
+                    width: 100%;
+                    height: 85vh;
+                    min-height: 650px;
+                    overflow: hidden;
+                    border-radius: 14px;
+                    border: 1px solid rgba(0, 220, 255, 0.2);
+                    background: #080d18;
+                ">
+
+                    <iframe
+                        src="https://smartfix0i.github.io/Smartlight/"
+                        title="ARIS Smart Home Control"
+                        style="
+                            width: 100%;
+                            height: 100%;
+                            border: none;
+                            display: block;
+                        "
+                        loading="lazy"
+                        allow="fullscreen"
+                    ></iframe>
+
+                </div>
+
+                <p style="
+                    text-align: center;
+                    margin-top: 12px;
+                    color: #8b9bad;
+                    font-size: 12px;
+                ">
+                    Powered by SmartFix Home Control
+                </p>
+
+            </section>
+
+            <!-- DEVICES -->
+
+            <section class="page" id="devices">
+
+                <div class="page-heading">
+                    <h1>My Devices</h1>
+                    <p>Manage your personal devices.</p>
+                </div>
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <div class="stat-icon cyan">💻</div>
+                        <p>Personal Laptop</p>
+                        <h3>Available</h3>
+                        <small>Interface device</small>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">📱</div>
+                        <p>Mobile Device</p>
+                        <h3>Available</h3>
+                        <small>Interface device</small>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon orange">🏠</div>
+                        <p>Smart Home Hub</p>
+                        <h3>Disconnected</h3>
+                        <small>No connection configured</small>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- TASKS -->
+
+            <section class="page" id="tasks">
+
+                <div class="page-heading">
+                    <h1>My Tasks</h1>
+                    <p>Organize your daily activities.</p>
+                </div>
+
+                <div class="panel">
+
+                    <div class="task-input">
+                        <input id="taskInput" placeholder="Add a new task...">
+                        <button class="primary-btn" id="addTask">Add Task +</button>
+                    </div>
+
+                    <div id="taskList"></div>
+
+                </div>
+
+            </section>
+
+            <!-- MEMORY -->
+
+            <section class="page" id="memory">
+
+                <div class="page-heading">
+                    <h1>ARIS Memory</h1>
+                    <p>Personal information storage interface.</p>
+                </div>
+
+                <div class="panel">
+                    <div class="empty-state">
+                        <div>◉</div>
+                        <h3>Memory Center</h3>
+                        <p>
+                            Your memory management interface is ready.
+                            Persistent AI memory is not configured yet.
+                        </p>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- HEALTH -->
+
+            <section class="page" id="health">
+
+                <div class="page-heading">
+                    <h1>ARIS Health</h1>
+                    <p>Your personal wellness dashboard interface.</p>
+                </div>
+
+                <div class="panel">
+                    <div class="empty-state">
+                        <div>♡</div>
+                        <h3>Health Center</h3>
+                        <p>No health data source is connected.</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- SETTINGS -->
+
+            <section class="page" id="settings">
+
+                <div class="page-heading">
+                    <h1>Settings</h1>
+                    <p>Customize your ARIS experience.</p>
+                </div>
+
+                <div class="panel settings-panel">
+
+                    <div class="setting-row">
+                        <div>
+                            <h3>Dark Interface</h3>
+                            <p>Use the futuristic dark theme.</p>
+                        </div>
+                        <span class="setting-badge">ENABLED</span>
+                    </div>
+
+                    <div class="setting-row">
+                        <div>
+                            <h3>Voice Recognition</h3>
+                            <p>Browser voice recognition support.</p>
+                        </div>
+                        <span class="setting-badge">AVAILABLE</span>
+                    </div>
+
+                    <div class="setting-row">
+                        <div>
+                            <h3>AI Connection</h3>
+                            <p>Connect an AI service in a future update.</p>
+                        </div>
+                        <span class="offline-badge">NOT CONNECTED</span>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+<script src="js/script.js"></script>
+
+
+
+<script>
+/* ARIS voice visualizer: works alongside the existing js/script.js */
+document.addEventListener("DOMContentLoaded", () => {
+    const panel = document.getElementById("arisVoicePanel");
+    const label = document.getElementById("arisVoiceLabel");
+    const mic = document.getElementById("voiceBtn");
+    const messages = document.getElementById("messages");
+    if (!panel) return;
+
+    let listening = false;
+    let speakTimer;
+
+    const setMode = (mode, message) => {
+        panel.classList.remove("is-listening", "is-speaking");
+        if (mode === "listening") panel.classList.add("is-listening");
+        if (mode === "speaking") panel.classList.add("is-speaking");
+        if (label) label.textContent = message;
+    };
+
+    if (mic) {
+        mic.addEventListener("click", () => {
+            listening = !listening;
+            setMode(listening ? "listening" : "idle",
+                listening ? "Listening... Speak clearly into your microphone." :
+                "Voice interface ready. Tap the microphone to speak.");
+            if (listening) {
+                window.setTimeout(() => {
+                    if (listening) {
+                        listening = false;
+                        setMode("idle", "Voice capture finished. You can speak again anytime.");
+                    }
+                }, 12000);
+            }
+        });
+    }
+
+    if (messages) {
+        const observer = new MutationObserver(() => {
+            if (listening) return;
+            setMode("speaking", "ARIS is responding...");
+            clearTimeout(speakTimer);
+            speakTimer = setTimeout(() => setMode("idle", "Voice interface ready. Ask ARIS anything."), 2600);
+        });
+        observer.observe(messages, { childList:true, subtree:true, characterData:true });
+    }
+});
+</script>
+
+</body>
+</html>
