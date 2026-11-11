@@ -61,6 +61,42 @@
 @media(max-width:900px){.aris-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media(max-width:480px){.aris-quick-access{padding:15px}.aris-quick-grid{grid-template-columns:1fr 1fr}.aris-quick-card{min-height:120px;padding:12px}.aris-quick-heading>span{display:none;}}
 
+
+/* ARIS notification center */
+.aris-notify-wrap{position:relative;z-index:30}
+.aris-notify-btn{position:relative;width:40px;height:40px;border:1px solid rgba(0,220,255,.2);border-radius:11px;background:rgba(0,180,220,.08);color:#dffaff;font-size:19px;cursor:pointer}
+.aris-notify-btn:hover{border-color:#00d9ff;background:rgba(0,190,230,.16)}
+.aris-notify-count{position:absolute;top:-5px;right:-5px;min-width:17px;height:17px;padding:0 4px;display:grid;place-items:center;border-radius:20px;background:#ff5b6e;color:#fff;font-size:10px;font-weight:800;border:2px solid #07111f}
+.aris-notify-menu{position:absolute;right:0;top:50px;width:min(360px,calc(100vw - 35px));padding:0;border:1px solid rgba(0,220,255,.22);border-radius:15px;background:#091525;box-shadow:0 18px 50px rgba(0,0,0,.48);display:none;overflow:hidden}
+.aris-notify-menu.open{display:block;animation:notifyDrop .18s ease-out}
+@keyframes notifyDrop{from{opacity:0;transform:translateY(-7px)}to{opacity:1;transform:translateY(0)}}
+.aris-notify-head{display:flex;justify-content:space-between;align-items:center;padding:16px;border-bottom:1px solid rgba(0,220,255,.12)}
+.aris-notify-head strong{color:#eafaff;font-size:14px}.aris-notify-head small{display:block;color:#7892a9;font-size:10px;margin-top:3px}
+.aris-notify-actions{display:flex;gap:10px}.aris-notify-actions button{border:0;background:none;color:#00d9ff;font-size:10px;cursor:pointer}
+.aris-notify-list{max-height:340px;overflow:auto;padding:7px}
+.aris-notify-item{display:flex;gap:11px;padding:12px 10px;border-radius:10px;border-bottom:1px solid rgba(255,255,255,.04)}
+.aris-notify-item.unread{background:rgba(0,190,230,.07)}
+.aris-notify-icon{flex:0 0 31px;height:31px;display:grid;place-items:center;border-radius:9px;background:rgba(0,210,255,.12);color:#00d9ff}
+.aris-notify-copy{min-width:0;flex:1}.aris-notify-copy strong{display:block;color:#eafaff;font-size:12px}.aris-notify-copy p{margin:4px 0;color:#91a9bd;font-size:11px;line-height:1.45}.aris-notify-copy time{color:#607b92;font-size:9px}
+.aris-notify-empty{padding:28px 15px;text-align:center;color:#8da5b9;font-size:12px}
+@media(max-width:560px){.aris-notify-menu{right:-48px}}
+
+
+/* ARIS command center */
+.aris-command-center{margin:22px 0;padding:22px;border:1px solid rgba(0,220,255,.2);border-radius:16px;background:linear-gradient(135deg,rgba(8,22,40,.96),rgba(5,12,25,.98));}
+.aris-command-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.aris-command-top .eyebrow{margin:0 0 5px;color:#00d9ff;font-size:10px;letter-spacing:2px;font-weight:700}.aris-command-top h2{margin:0;color:#eafaff;font-size:21px}.aris-command-top small{color:#7892a9;font-size:10px;letter-spacing:1px}
+.aris-command-form{display:flex;gap:10px}.aris-command-form input{flex:1;min-width:0;padding:14px 16px;border:1px solid rgba(0,220,255,.25);border-radius:11px;background:#071321;color:#eafaff;outline:none}.aris-command-form input:focus{border-color:#00d9ff;box-shadow:0 0 0 3px rgba(0,217,255,.08)}.aris-command-form button{padding:0 20px;border:0;border-radius:10px;background:linear-gradient(135deg,#00c9e8,#0879b9);color:#001521;font-weight:800;cursor:pointer}.aris-command-hints{display:flex;flex-wrap:wrap;gap:8px;margin-top:13px}.aris-command-hints button{padding:7px 10px;border:1px solid rgba(0,210,255,.18);border-radius:20px;background:rgba(0,180,220,.07);color:#9eddeb;font-size:10px;cursor:pointer}.aris-command-hints button:hover{border-color:#00d9ff;color:#fff}.aris-command-result{min-height:18px;margin:12px 2px 0;color:#8da5b9;font-size:11px}.aris-command-result.success{color:#54e6b0}.aris-command-result.error{color:#ff8794}
+@media(max-width:560px){.aris-command-center{padding:16px}.aris-command-form{flex-direction:column}.aris-command-form button{padding:12px}}
+
+
+/* ARIS focus timer */
+.aris-focus{margin:22px 0;padding:22px;border:1px solid rgba(0,220,255,.18);border-radius:16px;background:radial-gradient(circle at 50% 0%,rgba(0,180,220,.12),transparent 55%),linear-gradient(135deg,#09192b,#060e1d);text-align:center}
+.aris-focus .eyebrow{margin:0 0 5px;color:#00d9ff;font-size:10px;letter-spacing:2px;font-weight:700}.aris-focus h2{margin:0;color:#eafaff;font-size:21px}.aris-focus-sub{margin:7px 0 16px;color:#8da5b9;font-size:12px}
+.aris-focus-time{font-size:clamp(48px,9vw,72px);font-weight:800;letter-spacing:3px;line-height:1.2;color:#eafaff;text-shadow:0 0 22px rgba(0,217,255,.25);font-variant-numeric:tabular-nums}
+.aris-focus-status{min-height:18px;margin:7px 0 16px;color:#00d9ff;font-size:11px;letter-spacing:1px}
+.aris-focus-presets,.aris-focus-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin-top:12px}.aris-focus button{padding:9px 15px;border:1px solid rgba(0,210,255,.25);border-radius:9px;background:rgba(0,180,220,.08);color:#bceefa;font-size:11px;cursor:pointer}.aris-focus button:hover,.aris-focus button.active{border-color:#00d9ff;background:rgba(0,190,230,.18);color:#fff}.aris-focus .focus-primary{border:0;background:linear-gradient(135deg,#00c9e8,#0879b9);color:#001521;font-weight:800;min-width:100px}
+@media(max-width:560px){.aris-focus{padding:18px 12px}}
+
 </style>
 
 </head>
@@ -107,6 +143,12 @@
 
             <button class="nav-item" data-page="tasks">
                 <span>✓</span> Tasks
+            </button>
+
+            <div class="nav-label">ENTERTAINMENT</div>
+
+            <button class="nav-item" data-page="music">
+                <span>♫</span> Music Player
             </button>
 
             <div class="nav-label">PERSONAL</div>
@@ -160,6 +202,21 @@
                     SYSTEM ONLINE
                 </div>
 
+                <div class="aris-notify-wrap">
+                    <button class="aris-notify-btn" id="arisNotifyBtn" type="button" aria-label="Notifications" aria-expanded="false">
+                        ♧<span class="aris-notify-count" id="arisNotifyCount">3</span>
+                    </button>
+                    <div class="aris-notify-menu" id="arisNotifyMenu">
+                        <div class="aris-notify-head">
+                            <div><strong>Notifications</strong><small id="arisNotifySummary">3 unread alerts</small></div>
+                            <div class="aris-notify-actions">
+                                <button type="button" id="arisMarkAllRead">Mark all read</button>
+                                <button type="button" id="arisClearAll">Clear</button>
+                            </div>
+                        </div>
+                        <div class="aris-notify-list" id="arisNotifyList"></div>
+                    </div>
+                </div>
                 <div class="clock" id="clock">00:00:00</div>
 
                 <div class="top-avatar">A</div>
@@ -293,6 +350,47 @@
                     </div>
                 </div>
 
+
+                <!-- ARIS FOCUS TIMER -->
+                <section class="aris-focus" aria-label="ARIS focus timer">
+                    <p class="eyebrow">PRODUCTIVITY MODE</p>
+                    <h2>Focus Timer</h2>
+                    <p class="aris-focus-sub">Stay focused. Take breaks. Get things done.</p>
+                    <div class="aris-focus-time" id="arisFocusTime" role="timer" aria-live="off">25:00</div>
+                    <div class="aris-focus-status" id="arisFocusStatus" aria-live="polite">READY FOR A FOCUS SESSION</div>
+                    <div class="aris-focus-presets" aria-label="Timer presets">
+                        <button type="button" data-focus-minutes="25" class="active">Focus 25 min</button>
+                        <button type="button" data-focus-minutes="5">Short break 5 min</button>
+                        <button type="button" data-focus-minutes="15">Long break 15 min</button>
+                    </div>
+                    <div class="aris-focus-actions">
+                        <button type="button" class="focus-primary" id="arisFocusStart">START</button>
+                        <button type="button" id="arisFocusReset">RESET</button>
+                    </div>
+                </section>
+
+                <!-- ARIS COMMAND CENTER -->
+                <section class="aris-command-center" aria-label="ARIS command center">
+                    <div class="aris-command-top">
+                        <div>
+                            <p class="eyebrow">SYSTEM CONTROL</p>
+                            <h2>Command Center</h2>
+                        </div>
+                        <small>LOCAL COMMANDS</small>
+                    </div>
+                    <form class="aris-command-form" id="arisCommandForm">
+                        <input id="arisCommandInput" type="text" autocomplete="off" placeholder='Try: "open smart home" or "add task: buy groceries"' aria-label="Enter an ARIS command">
+                        <button type="submit">EXECUTE ↗</button>
+                    </form>
+                    <div class="aris-command-hints">
+                        <button type="button" data-command="open assistant">Open Assistant</button>
+                        <button type="button" data-command="open smart home">Smart Home</button>
+                        <button type="button" data-command="open tasks">My Tasks</button>
+                        <button type="button" data-command="what time is it">Current Time</button>
+                    </div>
+                    <p class="aris-command-result" id="arisCommandResult" role="status" aria-live="polite">Ready. Enter a command to control ARIS.</p>
+                </section>
+
                 <div class="bottom-grid">
 
                     <div class="panel">
@@ -361,6 +459,21 @@
                     </div>
 
                 </div>
+
+                <!-- ARIS WEATHER DASHBOARD -->
+                <section class="aris-weather" aria-label="ARIS weather dashboard" style="margin:22px 0;padding:22px;border:1px solid rgba(0,220,255,.2);border-radius:16px;background:linear-gradient(135deg,rgba(8,22,40,.97),rgba(5,12,25,.98));">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+                        <div><p style="margin:0 0 5px;color:#00d9ff;font-size:10px;letter-spacing:2px;font-weight:700;">LIVE WEATHER</p><h2 style="margin:0;color:#eafaff;font-size:21px;">Weather Dashboard</h2><small id="arisWeatherUpdated" style="color:#8da5b9;">Search a city to see current weather</small></div>
+                        <form id="arisWeatherForm" style="display:flex;gap:8px;flex-wrap:wrap;">
+                            <input id="arisWeatherCity" type="search" placeholder="Enter city (e.g. Riyadh)" aria-label="City name" style="min-width:190px;padding:11px 13px;border:1px solid rgba(0,220,255,.25);border-radius:9px;background:#071321;color:#eafaff;outline:none;">
+                            <button type="submit" style="padding:10px 16px;border:0;border-radius:9px;background:linear-gradient(135deg,#00c9e8,#0879b9);color:#001521;font-weight:800;cursor:pointer;">SEARCH</button>
+                        </form>
+                    </div>
+                    <div id="arisWeatherMain" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;">
+                        <div style="padding:18px;border-radius:12px;background:rgba(0,180,220,.07);color:#8da5b9;grid-column:1/-1;text-align:center;">Enter a city name to load live weather.</div>
+                    </div>
+                    <p id="arisWeatherMessage" role="status" aria-live="polite" style="margin:12px 2px 0;color:#8da5b9;font-size:11px;">Weather data provided by Open-Meteo. Internet connection required.</p>
+                </section>
 
             </section>
 
@@ -620,6 +733,53 @@
 
             <!-- SETTINGS -->
 
+            <!-- ARIS MUSIC PLAYER -->
+            <section class="page" id="music">
+                <div class="page-heading">
+                    <h1>Music Player</h1>
+                    <p>Your personal music space. Add audio files from your device to get started.</p>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:18px;align-items:stretch;">
+                    <div style="padding:24px;border:1px solid rgba(0,220,255,.22);border-radius:18px;background:radial-gradient(circle at 50% 10%,rgba(0,204,255,.12),transparent 45%),linear-gradient(145deg,#0b1b2b,#07111e);text-align:center;">
+                        <p style="margin:0;color:#00d9ff;font-size:10px;letter-spacing:2px;font-weight:800;">NOW PLAYING</p>
+                        <div id="arisMusicDisc" style="width:190px;height:190px;margin:24px auto 18px;border-radius:50%;display:grid;place-items:center;background:repeating-radial-gradient(circle,#101b29 0 3px,#17283a 4px 6px);border:7px solid #1b3044;box-shadow:0 0 35px rgba(0,210,255,.12);">
+                            <div style="width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#00d9ff,#0875ad);box-shadow:0 0 24px rgba(0,217,255,.45);display:grid;place-items:center;color:#001521;font-size:24px;">♫</div>
+                        </div>
+                        <h2 id="arisMusicTitle" style="margin:0;color:#eafaff;font-size:20px;overflow-wrap:anywhere;">No track selected</h2>
+                        <p id="arisMusicArtist" style="margin:7px 0 20px;color:#8da5b9;font-size:13px;">Choose audio files from your device</p>
+                        <audio id="arisAudio" preload="metadata" style="display:none"></audio>
+                        <div style="display:flex;align-items:center;gap:10px;color:#8da5b9;font-size:11px;">
+                            <span id="arisMusicCurrent">0:00</span>
+                            <input id="arisMusicSeek" type="range" min="0" max="1000" value="0" aria-label="Seek music" style="flex:1;accent-color:#00d9ff;cursor:pointer;">
+                            <span id="arisMusicDuration">0:00</span>
+                        </div>
+                        <div style="display:flex;justify-content:center;align-items:center;gap:18px;margin:22px 0;">
+                            <button id="arisMusicPrev" type="button" aria-label="Previous track" style="border:0;background:transparent;color:#c9e8f5;font-size:23px;cursor:pointer;">⏮</button>
+                            <button id="arisMusicPlay" type="button" aria-label="Play" style="width:58px;height:58px;border:0;border-radius:50%;background:linear-gradient(135deg,#00d9ff,#0879b9);color:#001521;font-size:22px;font-weight:900;cursor:pointer;box-shadow:0 0 25px rgba(0,217,255,.25);">▶</button>
+                            <button id="arisMusicNext" type="button" aria-label="Next track" style="border:0;background:transparent;color:#c9e8f5;font-size:23px;cursor:pointer;">⏭</button>
+                        </div>
+                        <div style="display:flex;justify-content:center;align-items:center;gap:10px;color:#8da5b9;font-size:12px;">
+                            <span>VOL</span><input id="arisMusicVolume" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volume" style="width:130px;accent-color:#00d9ff;">
+                            <button id="arisMusicShuffle" type="button" style="padding:7px 10px;border:1px solid rgba(0,220,255,.2);border-radius:8px;background:transparent;color:#8da5b9;cursor:pointer;">SHUFFLE</button>
+                            <button id="arisMusicRepeat" type="button" style="padding:7px 10px;border:1px solid rgba(0,220,255,.2);border-radius:8px;background:transparent;color:#8da5b9;cursor:pointer;">REPEAT: OFF</button>
+                        </div>
+                    </div>
+
+                    <div style="padding:22px;border:1px solid rgba(0,220,255,.18);border-radius:18px;background:linear-gradient(145deg,rgba(8,22,40,.97),rgba(5,12,25,.98));">
+                        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+                            <div><p style="margin:0 0 4px;color:#00d9ff;font-size:10px;letter-spacing:2px;font-weight:800;">YOUR LIBRARY</p><h2 style="margin:0;color:#eafaff;font-size:20px;">Playlist</h2></div>
+                            <label for="arisMusicFiles" style="padding:10px 14px;border-radius:9px;background:linear-gradient(135deg,#00c9e8,#0879b9);color:#001521;font-size:12px;font-weight:900;cursor:pointer;">＋ ADD MUSIC</label>
+                            <input id="arisMusicFiles" type="file" accept="audio/*" multiple style="display:none">
+                        </div>
+                        <p id="arisMusicMessage" role="status" aria-live="polite" style="margin:0 0 12px;color:#8da5b9;font-size:12px;">Select MP3, WAV, M4A or other supported audio files. Files stay in this browser on this device.</p>
+                        <div id="arisMusicPlaylist" style="display:grid;gap:8px;max-height:430px;overflow:auto;">
+                            <div style="padding:24px 12px;text-align:center;color:#7890a5;border:1px dashed rgba(0,220,255,.2);border-radius:12px;">Your playlist is empty. Add some music to begin.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section class="page" id="settings">
 
                 <div class="page-heading">
@@ -712,6 +872,291 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         observer.observe(messages, { childList:true, subtree:true, characterData:true });
     }
+});
+</script>
+
+
+<script>
+/* ARIS local notification center */
+document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.getElementById("arisNotifyBtn");
+    const menu = document.getElementById("arisNotifyMenu");
+    const list = document.getElementById("arisNotifyList");
+    const count = document.getElementById("arisNotifyCount");
+    const summary = document.getElementById("arisNotifySummary");
+    if (!btn || !menu || !list) return;
+
+    const storageKey = "aris_notifications";
+    const defaults = [
+        {id:"welcome", icon:"◎", title:"ARIS is ready", message:"Your personal assistant dashboard has initialized.", time:"Just now", read:false},
+        {id:"smartfix", icon:"⌂", title:"Smart Home shortcut added", message:"Open Smart Home to access your SmartFix controls.", time:"Today", read:false},
+        {id:"voice", icon:"♫", title:"Voice interface available", message:"Tap the microphone in AI Assistant to try voice input.", time:"Today", read:false}
+    ];
+    let items;
+    try { items = JSON.parse(localStorage.getItem(storageKey)); } catch(e) { items = null; }
+    if (!Array.isArray(items)) { items = defaults; save(); }
+
+    function save(){ localStorage.setItem(storageKey, JSON.stringify(items)); }
+    function render(){
+        const unread = items.filter(n => !n.read).length;
+        count.textContent = unread > 9 ? "9+" : unread;
+        count.style.display = unread ? "grid" : "none";
+        summary.textContent = `${unread} unread ${unread === 1 ? "alert" : "alerts"}`;
+        if (!items.length) {
+            list.innerHTML = '<div class="aris-notify-empty">All clear. No notifications right now.</div>';
+            return;
+        }
+        list.innerHTML = items.map(n => `
+            <div class="aris-notify-item ${n.read ? "" : "unread"}" data-id="${String(n.id).replace(/"/g,"&quot;")}">
+                <div class="aris-notify-icon">${n.icon || "•"}</div>
+                <div class="aris-notify-copy">
+                    <strong>${escapeHTML(n.title)}</strong>
+                    <p>${escapeHTML(n.message)}</p>
+                    <time>${escapeHTML(n.time || "Recently")}</time>
+                </div>
+            </div>`).join("");
+        list.querySelectorAll(".aris-notify-item").forEach(row => {
+            row.addEventListener("click", () => {
+                const item = items.find(n => String(n.id) === row.dataset.id);
+                if (item) { item.read = true; save(); render(); }
+            });
+        });
+    }
+    function escapeHTML(value){
+        return String(value).replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+    }
+    btn.addEventListener("click", e => {
+        e.stopPropagation();
+        const open = menu.classList.toggle("open");
+        btn.setAttribute("aria-expanded", String(open));
+    });
+    menu.addEventListener("click", e => e.stopPropagation());
+    document.addEventListener("click", () => {
+        menu.classList.remove("open");
+        btn.setAttribute("aria-expanded","false");
+    });
+    document.getElementById("arisMarkAllRead").addEventListener("click", () => {
+        items.forEach(n => n.read = true); save(); render();
+    });
+    document.getElementById("arisClearAll").addEventListener("click", () => {
+        items = []; save(); render();
+    });
+    render();
+});
+</script>
+
+
+<script>
+/* ARIS command center: local navigation and task commands only */
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("arisCommandForm");
+    const input = document.getElementById("arisCommandInput");
+    const result = document.getElementById("arisCommandResult");
+    if (!form || !input || !result) return;
+
+    const show = (message, type = "success") => {
+        result.textContent = message;
+        result.className = "aris-command-result " + type;
+    };
+    const openPage = (page) => {
+        const nav = document.querySelector('.nav-item[data-page="' + page + '"]');
+        if (!nav) return false;
+        nav.click();
+        return true;
+    };
+    const runCommand = (raw) => {
+        const command = raw.trim();
+        const lower = command.toLowerCase();
+        if (!command) { show("Please enter a command first.", "error"); return; }
+
+        const taskMatch = command.match(/^add\s+task\s*:\s*(.+)$/i) || command.match(/^add\s+task\s+(.+)$/i);
+        if (taskMatch) {
+            const taskInput = document.getElementById("taskInput");
+            const addButton = document.getElementById("addTask");
+            if (!taskInput || !addButton) { show("Task manager is not available on this page.", "error"); return; }
+            taskInput.value = taskMatch[1].trim();
+            addButton.click();
+            show("Task sent to your task list: " + taskMatch[1].trim());
+            return;
+        }
+
+        const routes = [
+            {keys:["assistant", "chat", "talk to aris"], page:"assistant", label:"AI Assistant"},
+            {keys:["smart home", "smartfix", "home controls"], page:"smarthome", label:"Smart Home"},
+            {keys:["task", "tasks", "to-do"], page:"tasks", label:"Tasks"},
+            {keys:["history", "conversation", "conversations"], page:"conversations", label:"Conversations"},
+            {keys:["device", "devices"], page:"devices", label:"My Devices"},
+            {keys:["memory"], page:"memory", label:"ARIS Memory"},
+            {keys:["health"], page:"health", label:"ARIS Health"},
+            {keys:["setting", "settings"], page:"settings", label:"Settings"},
+            {keys:["dashboard", "home screen"], page:"dashboard", label:"Dashboard"}
+        ];
+        if (lower.includes("time") || lower.includes("clock")) {
+            show("Your local system time is " + new Date().toLocaleTimeString() + ".");
+            return;
+        }
+        const route = routes.find(item => item.keys.some(key => lower.includes(key)));
+        if (route && (lower.startsWith("open") || lower.startsWith("go") || lower.startsWith("show") || lower.includes(route.keys[0]))) {
+            if (openPage(route.page)) show(route.label + " opened.");
+            else show("Could not open " + route.label + ".", "error");
+            return;
+        }
+        show('Command not recognised. Try "open tasks", "open smart home", or "add task: ...".', "error");
+    };
+
+    form.addEventListener("submit", event => { event.preventDefault(); runCommand(input.value); });
+    document.querySelectorAll(".aris-command-hints [data-command]").forEach(button => {
+        button.addEventListener("click", () => { input.value = button.dataset.command; runCommand(input.value); });
+    });
+});
+</script>
+
+
+<script>
+/* ARIS focus timer: independent from the main application script */
+document.addEventListener("DOMContentLoaded", () => {
+    const display = document.getElementById("arisFocusTime");
+    const status = document.getElementById("arisFocusStatus");
+    const startBtn = document.getElementById("arisFocusStart");
+    const resetBtn = document.getElementById("arisFocusReset");
+    const presetBtns = document.querySelectorAll("[data-focus-minutes]");
+    if (!display || !status || !startBtn || !resetBtn) return;
+    let total = 25 * 60;
+    let remaining = total;
+    let interval = null;
+    let running = false;
+    const render = () => {
+        const mins = Math.floor(remaining / 60).toString().padStart(2, "0");
+        const secs = (remaining % 60).toString().padStart(2, "0");
+        display.textContent = mins + ":" + secs;
+    };
+    const stop = () => { if (interval) clearInterval(interval); interval = null; running = false; startBtn.textContent = "RESUME"; };
+    const finish = () => {
+        stop(); remaining = 0; render(); status.textContent = "SESSION COMPLETE — WELL DONE!";
+        startBtn.textContent = "START AGAIN";
+        try { if ("Notification" in window && Notification.permission === "granted") new Notification("ARIS Focus Timer", { body: "Your timer session is complete." }); } catch (e) {}
+        try { const audio = new (window.AudioContext || window.webkitAudioContext)(); const osc = audio.createOscillator(); const gain = audio.createGain(); osc.connect(gain); gain.connect(audio.destination); osc.frequency.value = 660; gain.gain.value = 0.08; osc.start(); osc.stop(audio.currentTime + 0.35); } catch (e) {}
+    };
+    startBtn.addEventListener("click", () => {
+        if (running) { stop(); status.textContent = "PAUSED — TAKE YOUR TIME"; return; }
+        if (remaining <= 0) { remaining = total; render(); }
+        running = true; startBtn.textContent = "PAUSE"; status.textContent = "TIMER RUNNING — STAY FOCUSED";
+        interval = setInterval(() => { remaining = Math.max(0, remaining - 1); render(); if (remaining === 0) finish(); }, 1000);
+    });
+    resetBtn.addEventListener("click", () => { stop(); remaining = total; render(); status.textContent = "TIMER RESET — READY WHEN YOU ARE"; startBtn.textContent = "START"; });
+    presetBtns.forEach(btn => btn.addEventListener("click", () => {
+        stop(); total = Number(btn.dataset.focusMinutes) * 60; remaining = total; render();
+        presetBtns.forEach(item => item.classList.toggle("active", item === btn));
+        status.textContent = "READY — " + btn.textContent.toUpperCase(); startBtn.textContent = "START";
+    }));
+    render();
+});
+</script>
+
+
+<script>
+/* ARIS weather dashboard — Open-Meteo, no API key required */
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("arisWeatherForm");
+    const input = document.getElementById("arisWeatherCity");
+    const main = document.getElementById("arisWeatherMain");
+    const message = document.getElementById("arisWeatherMessage");
+    const updated = document.getElementById("arisWeatherUpdated");
+    if (!form || !input || !main || !message || !updated) return;
+
+    const weatherInfo = code => {
+        if (code === 0) return ["☀️", "Clear sky"];
+        if ([1,2].includes(code)) return ["🌤️", "Mainly clear / partly cloudy"];
+        if (code === 3) return ["☁️", "Overcast"];
+        if ([45,48].includes(code)) return ["🌫️", "Fog"];
+        if ([51,53,55,56,57].includes(code)) return ["🌦️", "Drizzle"];
+        if ([61,63,65,66,67,80,81,82].includes(code)) return ["🌧️", "Rain"];
+        if ([71,73,75,77,85,86].includes(code)) return ["❄️", "Snow"];
+        if ([95,96,99].includes(code)) return ["⛈️", "Thunderstorm"];
+        return ["🌡️", "Current conditions"];
+    };
+    const card = (label, value, icon) => `<div style="padding:17px;border:1px solid rgba(0,220,255,.13);border-radius:12px;background:rgba(0,180,220,.06);"><div style="color:#8da5b9;font-size:11px;">${label}</div><div style="margin-top:9px;color:#eafaff;font-size:21px;font-weight:750;">${icon ? icon + " " : ""}${value}</div></div>`;
+
+    form.addEventListener("submit", async event => {
+        event.preventDefault();
+        const city = input.value.trim();
+        if (!city) { message.textContent = "Please enter a city name."; return; }
+        message.textContent = "Loading weather for " + city + "...";
+        main.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;color:#8da5b9;">Connecting to weather service...</div>';
+        try {
+            const geoUrl = "https://geocoding-api.open-meteo.com/v1/search?name=" + encodeURIComponent(city) + "&count=1&language=en&format=json";
+            const geoResponse = await fetch(geoUrl);
+            if (!geoResponse.ok) throw new Error("City search service is unavailable.");
+            const geo = await geoResponse.json();
+            if (!geo.results || !geo.results.length) throw new Error("City not found. Check the spelling and try again.");
+            const place = geo.results[0];
+            const params = new URLSearchParams({latitude:place.latitude,longitude:place.longitude,current:"temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m",daily:"temperature_2m_max,temperature_2m_min",timezone:"auto",forecast_days:"1"});
+            const weatherResponse = await fetch("https://api.open-meteo.com/v1/forecast?" + params.toString());
+            if (!weatherResponse.ok) throw new Error("Weather service did not respond. Please try again.");
+            const data = await weatherResponse.json();
+            const current = data.current;
+            const [icon, description] = weatherInfo(current.weather_code);
+            const location = [place.name, place.admin1, place.country].filter(Boolean).join(", ");
+            main.innerHTML = [
+                `<div style="padding:17px;border:1px solid rgba(0,220,255,.2);border-radius:12px;background:rgba(0,180,220,.1);"><div style="color:#8da5b9;font-size:11px;">${location}</div><div style="margin:8px 0;font-size:38px;">${icon}</div><div style="font-size:34px;font-weight:800;color:#eafaff;">${Math.round(current.temperature_2m)}°C</div><div style="color:#a8c4d6;font-size:12px;">${description}</div></div>`,
+                card("FEELS LIKE", Math.round(current.apparent_temperature) + "°C", "🌡️"),
+                card("HUMIDITY", Math.round(current.relative_humidity_2m) + "%", "💧"),
+                card("WIND SPEED", Math.round(current.wind_speed_10m) + " km/h", "💨"),
+                card("PRECIPITATION", current.precipitation + " mm", "🌧️"),
+                card("TODAY HIGH / LOW", Math.round(data.daily.temperature_2m_max[0]) + "° / " + Math.round(data.daily.temperature_2m_min[0]) + "°C", "📊")
+            ].join("");
+            updated.textContent = "" + location + " · Updated " + new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+            message.textContent = "Weather loaded successfully. Data: Open-Meteo.";
+        } catch (error) {
+            main.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:20px;color:#ff9aa5;">Weather could not be loaded.</div>';
+            message.textContent = error.message || "Something went wrong. Please try again.";
+        }
+    });
+});
+</script>
+
+
+<script>
+/* ARIS Music Player — user-selected audio stored locally in IndexedDB */
+document.addEventListener("DOMContentLoaded", () => {
+    const $ = id => document.getElementById(id);
+    const audio = $("arisAudio"), fileInput = $("arisMusicFiles"), playlistEl = $("arisMusicPlaylist");
+    if (!audio || !fileInput || !playlistEl) return;
+    const DB_NAME = "aris_music_library", STORE = "tracks";
+    let db, tracks = [], current = -1, shuffle = false, repeat = false, objectUrl = null;
+    const message = text => { $("arisMusicMessage").textContent = text; };
+    const fmt = seconds => { if (!Number.isFinite(seconds)) return "0:00"; const m=Math.floor(seconds/60), s=Math.floor(seconds%60); return m+":"+String(s).padStart(2,"0"); };
+    const escapeHTML = value => String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    function openDB(){ return new Promise((resolve,reject)=>{ const req=indexedDB.open(DB_NAME,1); req.onupgradeneeded=()=>{ if(!req.result.objectStoreNames.contains(STORE)) req.result.createObjectStore(STORE,{keyPath:"id"}); }; req.onsuccess=()=>resolve(req.result); req.onerror=()=>reject(req.error); }); }
+    function allTracks(){ return new Promise((resolve,reject)=>{ const req=db.transaction(STORE,"readonly").objectStore(STORE).getAll(); req.onsuccess=()=>resolve(req.result||[]); req.onerror=()=>reject(req.error); }); }
+    function putTrack(track){ return new Promise((resolve,reject)=>{ const req=db.transaction(STORE,"readwrite").objectStore(STORE).put(track); req.onsuccess=()=>resolve(); req.onerror=()=>reject(req.error); }); }
+    function deleteTrack(id){ return new Promise((resolve,reject)=>{ const req=db.transaction(STORE,"readwrite").objectStore(STORE).delete(id); req.onsuccess=()=>resolve(); req.onerror=()=>reject(req.error); }); }
+    function render(){
+        if(!tracks.length){ playlistEl.innerHTML='<div style="padding:24px 12px;text-align:center;color:#7890a5;border:1px dashed rgba(0,220,255,.2);border-radius:12px;">Your playlist is empty. Add some music to begin.</div>'; return; }
+        playlistEl.innerHTML=tracks.map((t,i)=>`<div data-index="${i}" style="display:flex;align-items:center;gap:10px;padding:11px;border:1px solid ${i===current?'rgba(0,217,255,.45)':'rgba(0,220,255,.12)'};border-radius:10px;background:${i===current?'rgba(0,190,230,.09)':'rgba(0,0,0,.12)'};">
+          <button type="button" data-play="${i}" aria-label="Play ${escapeHTML(t.name)}" style="width:34px;height:34px;flex:0 0 34px;border:1px solid rgba(0,220,255,.2);border-radius:50%;background:rgba(0,210,255,.08);color:#00d9ff;cursor:pointer;">${i===current&&!audio.paused?'Ⅱ':'▶'}</button>
+          <div style="min-width:0;flex:1;text-align:left;"><strong style="display:block;color:#dff7ff;font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHTML(t.name)}</strong><small style="color:#7890a5;font-size:10px;">${fmt(t.duration||0)}</small></div>
+          <button type="button" data-delete="${i}" aria-label="Remove ${escapeHTML(t.name)}" style="border:0;background:transparent;color:#8299aa;font-size:17px;cursor:pointer;">×</button>
+        </div>`).join("");
+    }
+    async function loadTrack(index, autoplay=true){ if(!tracks.length) return; current=(index+tracks.length)%tracks.length; const t=tracks[current]; if(objectUrl) URL.revokeObjectURL(objectUrl); objectUrl=URL.createObjectURL(t.blob); audio.src=objectUrl; $("arisMusicTitle").textContent=t.name; $("arisMusicArtist").textContent="Local audio • ARIS Music Library"; render(); if(autoplay){ try{await audio.play();}catch(e){message("Press play to start this track.");} } }
+    async function next(){ if(!tracks.length)return; let n=current+1; if(shuffle&&tracks.length>1){ do{n=Math.floor(Math.random()*tracks.length);}while(n===current); } else if(n>=tracks.length){ if(repeat){n=0;} else {audio.pause();return;} } await loadTrack(n,true); }
+    fileInput.addEventListener("change", async e=>{ const files=[...e.target.files].filter(f=>f.type.startsWith("audio/")||/\.(mp3|wav|m4a|aac|ogg|flac|opus)$/i.test(f.name)); if(!files.length){message("No supported audio files selected.");return;} message("Adding " + files.length + " track(s)..."); for(const file of files){ const id=(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random()); await putTrack({id,name:file.name,blob:file,duration:0}); } tracks=await allTracks(); tracks.sort((a,b)=>a.name.localeCompare(b.name)); render(); message(files.length+" track(s) added to your local library."); if(current<0&&tracks.length) await loadTrack(0,false); fileInput.value=""; });
+    playlistEl.addEventListener("click", async e=>{ const play=e.target.closest("[data-play]"); const del=e.target.closest("[data-delete]"); if(play){const i=Number(play.dataset.play); if(i===current&&!audio.paused){audio.pause();}else{await loadTrack(i,true);} render();} if(del){const i=Number(del.dataset.delete), wasCurrent=i===current; await deleteTrack(tracks[i].id); tracks.splice(i,1); if(wasCurrent){audio.pause();audio.removeAttribute("src");if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=null;current=-1;$("arisMusicTitle").textContent="No track selected";$("arisMusicArtist").textContent="Choose audio files from your device";if(tracks.length)await loadTrack(Math.min(i,tracks.length-1),false);}else if(i<current)current--;render();message("Track removed from your library.");} });
+    $("arisMusicPlay").addEventListener("click",async()=>{if(!tracks.length){fileInput.click();return;} if(current<0)await loadTrack(0,false); if(audio.paused){try{await audio.play();}catch(e){message("This audio file could not be played by your browser.");}}else audio.pause();});
+    $("arisMusicPrev").addEventListener("click",()=>{if(audio.currentTime>3){audio.currentTime=0;}else loadTrack(Math.max(0,current-1),true);});
+    $("arisMusicNext").addEventListener("click",next);
+    $("arisMusicVolume").addEventListener("input",e=>audio.volume=Number(e.target.value)); audio.volume=.8;
+    $("arisMusicSeek").addEventListener("input",e=>{if(audio.duration)audio.currentTime=(Number(e.target.value)/1000)*audio.duration;});
+    audio.addEventListener("timeupdate",()=>{$("arisMusicCurrent").textContent=fmt(audio.currentTime);if(audio.duration){$("arisMusicSeek").value=Math.round(audio.currentTime/audio.duration*1000);}});
+    audio.addEventListener("loadedmetadata",()=>{$("arisMusicDuration").textContent=fmt(audio.duration);if(current>=0)tracks[current].duration=audio.duration;});
+    audio.addEventListener("play",()=>{$("arisMusicPlay").textContent="Ⅱ";$("arisMusicDisc").style.animation="arisDiscSpin 7s linear infinite";render();});
+    audio.addEventListener("pause",()=>{$("arisMusicPlay").textContent="▶";$("arisMusicDisc").style.animation="none";render();});
+    audio.addEventListener("ended",()=>{if(repeat){audio.currentTime=0;audio.play();}else next();});
+    $("arisMusicShuffle").addEventListener("click",()=>{shuffle=!shuffle;$("arisMusicShuffle").style.color=shuffle?'#00d9ff':'#8da5b9';message("Shuffle "+(shuffle?"enabled.":"disabled."));});
+    $("arisMusicRepeat").addEventListener("click",()=>{repeat=!repeat;$("arisMusicRepeat").textContent="REPEAT: "+(repeat?"ON":"OFF");$("arisMusicRepeat").style.color=repeat?'#00d9ff':'#8da5b9';});
+    const style=document.createElement("style");style.textContent="@keyframes arisDiscSpin{to{transform:rotate(360deg)}}";document.head.appendChild(style);
+    openDB().then(async value=>{db=value;tracks=await allTracks();tracks.sort((a,b)=>a.name.localeCompare(b.name));render();message(tracks.length?tracks.length+" saved track(s) loaded from this browser.":"Select MP3, WAV, M4A or other supported audio files. Files stay in this browser on this device.");}).catch(()=>message("Local music storage is unavailable in this browser. You can still try selecting audio files after refreshing.") );
 });
 </script>
 
