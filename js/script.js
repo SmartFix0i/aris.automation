@@ -786,3 +786,5 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("ARIS System Initialized Successfully.");
 
 });
+
+
