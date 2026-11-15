@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARIS | Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #070b18;
+            color: white;
+        }
+
+        .auth-container {
+            width: 90%;
+            max-width: 420px;
+            padding: 35px;
+            background: #111a2e;
+            border: 1px solid #243b5c;
+            border-radius: 18px;
+            box-shadow: 0 0 35px #00bfff20;
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 38px;
+            font-weight: bold;
+            color: #36d9ff;
+            letter-spacing: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #9baec8;
+            margin: 10px 0 30px;
+        }
+
+        h2 {
+            margin-bottom: 22px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #304767;
+            background: #091225;
+            color: white;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #36d9ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #16bde8;
+            border: none;
+            border-radius: 8px;
+            color: #06101c;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .switch {
+            text-align: center;
+            margin-top: 22px;
+            color: #a9bad0;
+            font-size: 14px;
+        }
+
+        .switch span {
+            color: #36d9ff;
+            cursor: pointer;
+        }
+
+        #status {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 13px;
+            color: #36d9ff;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+        <div class="logo">ARIS</div>
+
+        <div class="subtitle">
+            Advanced Intelligence System
+        </div>
+
+        <div id="loginBox">
+
+            <h2>Welcome Back</h2>
+
+            <form id="loginForm">
+
+                <input
+                    type="email"
+                    id="loginEmail"
+                    placeholder="Email Address"
+                    required
+                >
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Password"
+                    required
+                >
+
+                <button type="submit" id="loginBtn">
+                    LOGIN
+                </button>
+
+            </form>
+
+            <div class="switch">
+                Don't have an account?
+                <span id="showRegister">Register</span>
+            </div>
+
+        </div>
+
+        <div id="registerBox" class="hidden">
+
+            <h2>Create Account</h2>
+
+            <form id="registerForm">
+
+                <input
+                    type="text"
+                    id="registerName"
+                    placeholder="Full Name"
+                    required
+                >
+
+                <input
+                    type="email"
+                    id="registerEmail"
+                    placeholder="Email Address"
+                    required
+                >
+
+                <input
+                    type="password"
+                    id="registerPassword"
+                    placeholder="Password (minimum 6 characters)"
+                    minlength="6"
+                    required
+                >
+
+                <button type="submit" id="registerBtn">
+                    CREATE ACCOUNT
+                </button>
+
+            </form>
+
+            <div class="switch">
+                Already have an account?
+                <span id="showLogin">Login</span>
+            </div>
+
+        </div>
+
+        <p id="status"></p>
+
+    </div>
+
+    <script>
+        const loginBox = document.getElementById("loginBox");
+        const registerBox = document.getElementById("registerBox");
+
+        document.getElementById("showRegister").onclick = () => {
+            loginBox.classList.add("hidden");
+            registerBox.classList.remove("hidden");
+            document.getElementById("status").textContent = "";
+        };
+
+        document.getElementById("showLogin").onclick = () => {
+            registerBox.classList.add("hidden");
+            loginBox.classList.remove("hidden");
+            document.getElementById("status").textContent = "";
+        };
+    </script>
+
+
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    updateProfile
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBlQj6ckyxj6R37Vy_wUUq3sgZS9WX8600",
+    authDomain: "aris-ai-36303.firebaseapp.com",
+    databaseURL: "https://aris-ai-36303-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "aris-ai-36303",
+    storageBucket: "aris-ai-36303.firebasestorage.app",
+    messagingSenderId: "1098005195954",
+    appId: "1:8005195195954:web:9a6d37a65713f460ecadab"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const loginBox = document.getElementById("loginBox");
+const registerBox = document.getElementById("registerBox");
+const status = document.getElementById("status");
+
+document.getElementById("showRegister").onclick = () => {
+    loginBox.classList.add("hidden");
+    registerBox.classList.remove("hidden");
+    status.textContent = "";
+};
+
+document.getElementById("showLogin").onclick = () => {
+    registerBox.classList.add("hidden");
+    loginBox.classList.remove("hidden");
+    status.textContent = "";
+};
+
+document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("registerName").value.trim();
+    const email = document.getElementById("registerEmail").value.trim();
+    const password = document.getElementById("registerPassword").value;
+
+    try {
+        status.textContent = "Creating account...";
+
+        const result = await createUserWithEmailAndPassword(
+            auth, email, password
+        );
+
+        await updateProfile(result.user, {
+            displayName: name
+        });
+
+        status.textContent = "Account created successfully!";
+
+        window.location.href = "./index.html";
+
+    } catch (error) {
+        status.textContent = error.message;
+    }
+});
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    try {
+        status.textContent = "Logging in...";
+
+        await signInWithEmailAndPassword(auth, email, password);
+
+        status.textContent = "Login successful!";
+
+        window.location.href = "./index.html";
+
+    } catch (error) {
+        status.textContent = error.message;
+    }
+});
+</script>
+
+
+
+
+<script type="module">
+import {
+    auth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword
+} from "./js/firebase.js";
+
+const loginForm = document.getElementById("loginForm");
+
+if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+
+            alert("ARIS Login Successful!");
+            window.location.href = "index.html";
+
+        } catch (error) {
+            alert("Login Failed: " + error.message);
+        }
+    });
+}
+</script>
+
+<script type="module" src="js/firebase.js"></script>
+
+</body>
+</html>
