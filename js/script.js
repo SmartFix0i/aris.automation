@@ -792,7 +792,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderTasks();
     }
 
-    addTaskButton.addEventListener("click", addTask);
+     addTaskButton.addEventListener("click", addTask);
 
     taskInput.addEventListener("keydown", event => {
 
@@ -819,3 +819,5 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("ARIS System Initialized Successfully.");
 
 });
+
+
