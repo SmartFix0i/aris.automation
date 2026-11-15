@@ -823,7 +823,7 @@
 
 </div>
 
-<script src="js/script.js"></script>
+<script type="module" src="./js/script.js"></script>
 
 
 
@@ -896,7 +896,20 @@ document.addEventListener("DOMContentLoaded", () => {
     try { items = JSON.parse(localStorage.getItem(storageKey)); } catch(e) { items = null; }
     if (!Array.isArray(items)) { items = defaults; save(); }
 
-    function save(){ localStorage.setItem(storageKey, JSON.stringify(items)); }
+    
+async function saveConversations() {
+    try {
+        await set(
+            ref(database, "aris/conversations"),
+            conversations
+        );
+
+        console.log("Conversations saved to Firebase!");
+    } catch (error) {
+        console.error("Firebase save error:", error);
+    }
+}
+
     function render(){
         const unread = items.filter(n => !n.read).length;
         count.textContent = unread > 9 ? "9+" : unread;
@@ -1159,6 +1172,11 @@ document.addEventListener("DOMContentLoaded", () => {
     openDB().then(async value=>{db=value;tracks=await allTracks();tracks.sort((a,b)=>a.name.localeCompare(b.name));render();message(tracks.length?tracks.length+" saved track(s) loaded from this browser.":"Select MP3, WAV, M4A or other supported audio files. Files stay in this browser on this device.");}).catch(()=>message("Local music storage is unavailable in this browser. You can still try selecting audio files after refreshing.") );
 });
 </script>
+
+
+
+<script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js"></script>
 
 </body>
 </html>
