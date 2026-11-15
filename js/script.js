@@ -1,15 +1,16 @@
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-
 import {
-    getDatabase,
+    auth,
+    database,
     ref,
-    set,
     get,
+    set,
     push,
     remove,
-    onValue
-} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js";
+    onValue,
+    onAuthStateChanged
+} from "./firebase.js";
+
 
 // FIREBASE CONFIGURATION
 
@@ -23,12 +24,7 @@ const firebaseConfig = {
     appId: "1:1098005195954:web:9a6d37a65713f460ecadab"
 };
 
-// INITIALIZE FIREBASE
 
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-
-console.log("ARIS Firebase Connected Successfully!");
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -59,20 +55,38 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentConversationId = null;
     let speechEnabled = true;
 
-    // INITIALIZATION
-
-    
+   
 async function loadConversations() {
     try {
-        const snapshot = await get(
-            ref(database, "aris/conversations")
+        const user = auth.currentUser;
+
+        if (!user) {
+            console.log("Waiting for Firebase login...");
+            return [];
+        }
+
+        const conversationsRef = ref(
+            database,
+            `users/${user.uid}/conversations`
         );
+
+        const snapshot = await get(conversationsRef);
 
         if (snapshot.exists()) {
             const data = snapshot.val();
 
-            return Array.isArray(data) ? data : Object.values(data);
-        }
+            const loadedConversations = Array.isArray(data)
+    ? data
+    : Object.values(data);
+
+return loadedConversations.map(conversation => ({
+    ...conversation,
+    messages: Array.isArray(conversation.messages)
+        ? conversation.messages
+        : conversation.messages
+            ? Object.values(conversation.messages)
+            : []
+}));        }
 
         // First-time migration from localStorage
         const oldData = JSON.parse(
@@ -80,11 +94,7 @@ async function loadConversations() {
         ) || [];
 
         if (Array.isArray(oldData) && oldData.length > 0) {
-            await set(
-                ref(database, "aris/conversations"),
-                oldData
-            );
-
+            await set(conversationsRef, oldData);
             return oldData;
         }
 
@@ -95,6 +105,7 @@ async function loadConversations() {
         return [];
     }
 }
+
 
 
     function saveConversations() {
@@ -320,27 +331,48 @@ async function loadConversations() {
 
     function renderMessages() {
 
-        messages.innerHTML = "";
+    messages.innerHTML = "";
 
-        const conversation = getCurrentConversation();
+    const conversation = getCurrentConversation();
 
-        if (!conversation || conversation.messages.length === 0) {
+    if (!conversation) {
+        addMessage(
+            "Hello! 👋 Main ARIS hoon. Aapki kya help kar sakta hoon?",
+            "bot-message"
+        );
+        return;
+    }
 
-            addMessage(
-                "Hello Arman! 👋 Main ARIS hoon. Aap mujhse kya karwana chahenge?",
-                "bot-message"
-            );
+    // Ensure messages is always an array
+    if (!Array.isArray(conversation.messages)) {
+        conversation.messages = [];
+    }
 
+    if (conversation.messages.length === 0) {
+
+        addMessage(
+            "Hello! 👋 Main ARIS hoon. Aap mujhse kya karwana chahenge?",
+            "bot-message"
+        );
+
+        return;
+    }
+
+    conversation.messages.forEach(message => {
+
+        if (!message || typeof message.text !== "string") {
             return;
         }
 
-        conversation.messages.forEach(message => {
-            addMessage(message.text, message.sender === "user"
+        addMessage(
+            message.text,
+            message.sender === "user"
                 ? "user-message"
                 : "bot-message"
-            );
-        });
-    }
+        );
+
+    });
+}
 
     // SAVE MESSAGE
 
@@ -827,35 +859,51 @@ async function loadConversations() {
         }
     });
 
+
+
     
+// START ARIS - FIREBASE AUTH INITIALIZATION
 
-    // START ARIS - FIREBASE INITIALIZATION
+async function initializeARIS() {
 
-    async function initializeARIS() {
+    try {
+        conversations = await loadConversations();
 
-        try {
-            conversations = await loadConversations();
-
-            if (conversations.length === 0) {
-                createConversation();
-            } else {
-                currentConversationId = conversations[0].id;
-            }
-
-            renderHistory();
-            renderMessages();
-            renderAllConversations();
-            renderTasks();
-
-            setCoreState("idle");
-
-            console.log("ARIS System Initialized Successfully!");
-
-        } catch (error) {
-            console.error("ARIS Initialization Error:", error);
+        if (conversations.length === 0) {
+            createConversation();
+        } else {
+            currentConversationId = conversations[0].id;
         }
+
+        renderHistory();
+        renderMessages();
+        renderAllConversations();
+        renderTasks();
+
+        setCoreState("idle");
+
+        console.log("ARIS System Initialized Successfully!");
+
+    } catch (error) {
+        console.error("ARIS Initialization Error:", error);
+    }
+}
+
+// CHECK FIREBASE LOGIN STATUS
+
+onAuthStateChanged(auth, async (user) => {
+
+    if (!user) {
+        console.log("No user logged in. Redirecting to login page...");
+
+        window.location.href = "logn.html";
+        return;
     }
 
-    initializeARIS();
+    console.log("ARIS User Logged In:", user.uid);
+
+    await initializeARIS();
+
+});
 
 });
