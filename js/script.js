@@ -55,21 +55,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const CHAT_STORAGE_KEY = "aris_conversations";
     const TASK_STORAGE_KEY = "aris_tasks";
 
-    let conversations = loadConversations();
+    let conversations = [];
     let currentConversationId = null;
     let speechEnabled = true;
 
     // INITIALIZATION
 
-    function loadConversations() {
-        try {
-            const saved = JSON.parse(localStorage.getItem(CHAT_STORAGE_KEY));
-            return Array.isArray(saved) ? saved : [];
-        } catch (error) {
-            console.error("Chat storage error:", error);
-            return [];
+    
+async function loadConversations() {
+    try {
+        const snapshot = await get(
+            ref(database, "aris/conversations")
+        );
+
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+
+            return Array.isArray(data) ? data : Object.values(data);
         }
+
+        // First-time migration from localStorage
+        const oldData = JSON.parse(
+            localStorage.getItem(CHAT_STORAGE_KEY)
+        ) || [];
+
+        if (Array.isArray(oldData) && oldData.length > 0) {
+            await set(
+                ref(database, "aris/conversations"),
+                oldData
+            );
+
+            return oldData;
+        }
+
+        return [];
+
+    } catch (error) {
+        console.error("Firebase load error:", error);
+        return [];
     }
+}
+
 
     function saveConversations() {
         localStorage.setItem(
@@ -792,7 +818,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderTasks();
     }
 
-     addTaskButton.addEventListener("click", addTask);
+    addTaskButton.addEventListener("click", addTask);
 
     taskInput.addEventListener("keydown", event => {
 
@@ -801,23 +827,35 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // START ARIS
+    
 
-    if (conversations.length === 0) {
-        createConversation();
-    } else {
-        currentConversationId = conversations[0].id;
+    // START ARIS - FIREBASE INITIALIZATION
+
+    async function initializeARIS() {
+
+        try {
+            conversations = await loadConversations();
+
+            if (conversations.length === 0) {
+                createConversation();
+            } else {
+                currentConversationId = conversations[0].id;
+            }
+
+            renderHistory();
+            renderMessages();
+            renderAllConversations();
+            renderTasks();
+
+            setCoreState("idle");
+
+            console.log("ARIS System Initialized Successfully!");
+
+        } catch (error) {
+            console.error("ARIS Initialization Error:", error);
+        }
     }
 
-    renderHistory();
-    renderMessages();
-    renderAllConversations();
-    renderTasks();
-
-    setCoreState("idle");
-
-    console.log("ARIS System Initialized Successfully.");
+    initializeARIS();
 
 });
-
-
